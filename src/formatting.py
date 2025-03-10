@@ -52,8 +52,10 @@ def split_nodes_image(old_nodes):
                 new_nodes.append(TextNode(splitText[0], TextType.TEXT)) 
             new_nodes.append(TextNode(result[0], TextType.IMAGE, result[1]))
             nodeText = splitText[1]
-            if i == len(imagesResult) and nodeText != "":
+            #print(nodeText)
+            if i == len(imagesResult) - 1 and nodeText != "":
                 new_nodes.append(TextNode(nodeText, TextType.TEXT))
+                #print(new_nodes)
     return new_nodes
 
 
@@ -74,7 +76,7 @@ def split_nodes_links(old_nodes):
                 new_nodes.append(TextNode(splitText[0], TextType.TEXT))
             new_nodes.append(TextNode(result[0], TextType.LINK, result[1]))
             nodeText = splitText[1]
-            if i == len(linkResults) and nodeText != "":
+            if i == len(linkResults) -1 and nodeText != "":
                 new_nodes.append(TextNode(nodeText, TextType.TEXT))
     #for node in new_nodes:
 
@@ -88,6 +90,7 @@ def text_to_textnodes(text):
     for key, value in delimiterDict.items():
         processingNode = split_nodes_delimiter(processingNode, key, value)
     processingNode = split_nodes_image(processingNode)
+    #print(processingNode)
     processingNode = split_nodes_links(processingNode)
     #print(processingNode)
     return processingNode
