@@ -1,6 +1,7 @@
 import unittest
 
 from textnode import *
+from formatting import *
 
 
 class TestTextNode(unittest.TestCase):
