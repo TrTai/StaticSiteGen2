@@ -18,7 +18,7 @@ class TestHtmlNode(unittest.TestCase):
 
     def testRepr(self):
         node = HtmlNode("h1", "Testing Replication")
-        expectedString = f"tag = h1, value = Testing Replication, children = None, props = None"
+        expectedString = f"<class \'htmlnode.HtmlNode\'>(tag = h1, value = Testing Replication, children = None, props = None)"
         self.assertEqual(node.__repr__(), expectedString)
 
     def test_leaf_to_html_p(self):

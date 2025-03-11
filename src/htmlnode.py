@@ -17,7 +17,7 @@ class HtmlNode:
         raise TypeError
 
     def __repr__(self):
-        return f"tag = {self.tag}, value = {self.value}, children = {self.children}, props = {self.props}"
+        return f"{type(self)}(tag = {self.tag}, value = {self.value}, children = {self.children}, props = {self.props})"
 
 class LeafNode(HtmlNode):
     def __init__(self, tag = None, value = None, props = None):
@@ -45,4 +45,5 @@ class ParentNode(HtmlNode):
         if self.children == None:
             raise ValueError("Parent must have Children")
         return f"<{self.tag}>{''.join(list(map(lambda x: x.to_html(), self.children)))}</{self.tag}>"
+
 
