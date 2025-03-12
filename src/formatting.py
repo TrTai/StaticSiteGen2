@@ -57,7 +57,7 @@ def split_nodes_image(old_nodes):
                 new_nodes.append(TextNode(nodeText, TextType.TEXT))
                 #print(new_nodes)
     return new_nodes
-
+ 
 
 def split_nodes_links(old_nodes):
     new_nodes = []
