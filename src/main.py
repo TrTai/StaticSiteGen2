@@ -1,15 +1,17 @@
-from os.path import isdir
 from textnode import *
 import os
 import shutil
 import re
 from blockformatting import markdown_to_html_node
+from pathlib import Path
+
 def main():
     #newTextNode = TextNode("This is some anchor text", TextType.LINK, "https://www.boot.dev")
     #print(newTextNode.__repr__())
     clear_public()
     copy_static_to_public()
-    generate_page("content/index.md", "template.html", "public/index.html")
+    generate_pages_recursive("content", "template.html", "public")
+    #generate_page("content/index.md", "template.html", "public/index.html")
 
 def clear_public():
     print(os.listdir())
@@ -53,10 +55,10 @@ def generate_page(from_path, template_path, dest_path):
     md = mdFile.read()
     templateFile = open(template_path, "r")
     template = templateFile.read()
-    htmlOut = markdown_to_html_node(md).to_html()
-    pageTitle = extract_title(md)
-    outputFile = template.replace("{{ Title }}", pageTitle).replace("{{ Content }}", htmlOut)
+    outputFile = template.replace("{{ Title }}", extract_title(md)).replace("{{ Content }}", markdown_to_html_node(md).to_html())
     print(f"writing out file to {dest_path}")
+    if os.path.dirname(dest_path) != "":
+        os.makedirs(os.path.dirname(dest_path), exist_ok=True)
     destinationFile = open(dest_path, "w")
     destinationFile.write(outputFile)
     mdFile.close()
@@ -64,6 +66,10 @@ def generate_page(from_path, template_path, dest_path):
     destinationFile.close()
 
 def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
-    raise NotImplementedError
+    for item in os.listdir(dir_path_content):
+            if os.path.isfile(os.path.join(dir_path_content, item)):
+                generate_page(os.path.join(dir_path_content, item), template_path,  Path(os.path.join(dest_dir_path, item)).with_suffix(".html"))
+            else:
+                generate_pages_recursive(os.path.join(dir_path_content, item), template_path, os.path.join(dest_dir_path, item))
 main()
 
